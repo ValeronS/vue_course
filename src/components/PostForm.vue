@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <form @submit.prevent>
     <h4>Создание поста</h4>
     <input
@@ -13,12 +13,18 @@
       type="text"
       placeholder="Описание"
     />
-    <button class="btn" @click="createPost">Создать</button>
+    <MyButton class="flex_end margin_top" @click="createPost"
+      >Создать</MyButton
+    >
   </form>
 </template>
 
 <script>
+import MyButton from '@/components/UI/MyButton.vue';
 export default {
+  components: {
+    MyButton,
+  },
   data() {
     return {
       post: {
@@ -52,15 +58,5 @@ form {
   border: 1px solid teal;
   padding: 10px 15px;
   border-radius: 5px;
-}
-
-.btn {
-  margin-top: 5px;
-  align-self: flex-end;
-  padding: 5px 10px;
-  background: none;
-  color: teal;
-  border: 1px solid teal;
-  border-radius: 3px;
 }
 </style>
