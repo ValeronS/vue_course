@@ -37,4 +37,8 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+h4 {
+  text-align: center;
+}
 </style>
