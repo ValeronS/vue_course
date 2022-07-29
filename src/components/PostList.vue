@@ -1,7 +1,13 @@
 <template>
   <div>
     <h3>Список пользователей</h3>
-    <post-item class="post" v-for="post in posts" :post="post" />
+    <post-item
+      class="post"
+      v-for="post in posts"
+      :post="post"
+      :key="post.id"
+      @remove="$emit('remove', post)"
+    />
   </div>
 </template>
 

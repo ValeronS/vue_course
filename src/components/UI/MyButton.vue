@@ -17,6 +17,7 @@ export default {
   color: teal;
   border: 1px solid teal;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .flex_end {
