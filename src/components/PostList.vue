@@ -30,5 +30,6 @@ export default {
 h2,
 h3 {
   text-align: center;
+  margin-top: 10px;
 }
 </style>
