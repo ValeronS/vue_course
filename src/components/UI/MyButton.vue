@@ -27,4 +27,8 @@ export default {
 .margin_top {
   margin-top: 5px;
 }
+
+.margin_bottom {
+  margin-bottom: 5px;
+}
 </style>
