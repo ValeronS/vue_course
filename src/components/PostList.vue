@@ -9,7 +9,12 @@
       @remove="$emit('remove', post)"
     />
   </div>
-  <h2 v-else>Список постов пуст</h2>
+  <div v-else class="empty_list">
+    <h2>Список постов пуст</h2>
+    <my-button @click="$emit('fetchPosts')" class="flex_end margin_top"
+      >Получить посты</my-button
+    >
+  </div>
 </template>
 
 <script>
@@ -31,5 +36,10 @@ h2,
 h3 {
   text-align: center;
   margin-top: 10px;
+}
+
+.empty_list {
+  display: flex;
+  flex-direction: column;
 }
 </style>
