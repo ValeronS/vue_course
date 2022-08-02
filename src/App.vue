@@ -1,10 +1,9 @@
 <template>
   <div class="app">
-    <div class="header">
-      <h1>Страница с постами</h1>
-      <my-button @click="showDialog" class="flex_end margin_top margin_bottom"
-        >Создать пост</my-button
-      >
+    <h1>Страница с постами</h1>
+    <div class="app__btns">
+      <my-select v-model="selectedSort" :options="sortOptions" />
+      <my-button @click="showDialog">Создать пост</my-button>
     </div>
 
     <my-dialog v-model:show="dialogVisible">
@@ -36,6 +35,12 @@ export default {
       posts: [],
       dialogVisible: false,
       isPostLoading: false,
+      selectedSort: '',
+      sortOptions: [
+        { value: 'title', name: 'По названию' },
+        { value: 'body', name: 'По содержимому' },
+        { value: 'id', name: 'По id поста' },
+      ],
     };
   },
   methods: {
@@ -59,7 +64,7 @@ export default {
           this.posts = response.data;
           console.log(response);
           this.isPostLoading = false;
-        }, 1000);
+        }, 700);
       } catch (error) {
         alert('Ошибка: ', error);
       } finally {
@@ -68,6 +73,27 @@ export default {
   },
   mounted() {
     this.fetchPosts();
+  },
+  watch: {
+    selectedSort(newValue) {
+      if (newValue === 'title' || newValue === 'body') {
+        // if (typeof this.posts[0][newValue] === String) {
+        this.posts.sort((post1, post2) => {
+          return post1[newValue]?.localeCompare(post2[newValue]);
+        });
+        console.log(newValue);
+        console.log(this.posts);
+        console.log(typeof this.posts[0][newValue]);
+      } else {
+        this.posts.sort((post1, post2) => {
+          return post1.id - post2.id;
+        });
+        console.log(this.posts);
+      }
+    },
+    dialogVisible(newValue) {
+      console.log(newValue);
+    },
   },
 };
 </script>
@@ -83,13 +109,15 @@ export default {
   padding: 20px;
 }
 
-.header {
-  display: flex;
-  flex-direction: column;
-}
-
 h1 {
   text-align: center;
   margin-bottom: 5px;
+}
+
+.app__btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>
