@@ -11,7 +11,7 @@
     </my-dialog>
 
     <post-list
-      :posts="posts"
+      :posts="sortedPosts"
       @remove="removePost"
       @fetchPosts="fetchPosts"
       v-if="!isPostLoading"
@@ -74,27 +74,51 @@ export default {
   mounted() {
     this.fetchPosts();
   },
-  watch: {
-    selectedSort(newValue) {
-      if (newValue === 'title' || newValue === 'body') {
-        // if (typeof this.posts[0][newValue] === String) {
-        this.posts.sort((post1, post2) => {
-          return post1[newValue]?.localeCompare(post2[newValue]);
+  computed: {
+    sortedPosts() {
+      let tempPosts = [...this.posts];
+      if (this.selectedSort === '') {
+        console.log('SelectedSort is empty');
+        return this.posts;
+      } else if (typeof this.posts[0][this.selectedSort] === 'string') {
+        tempPosts.sort((post1, post2) => {
+          return post1[this.selectedSort]?.localeCompare(
+            post2[this.selectedSort]
+          );
         });
-        console.log(newValue);
-        console.log(this.posts);
-        console.log(typeof this.posts[0][newValue]);
+        console.log(tempPosts);
+        console.log('Sorted by', this.selectedSort);
+        return tempPosts;
       } else {
-        this.posts.sort((post1, post2) => {
+        tempPosts.sort((post1, post2) => {
           return post1.id - post2.id;
         });
-        console.log(this.posts);
+        console.log(tempPosts);
+        console.log('Sorted by', this.selectedSort);
+        return tempPosts;
       }
     },
-    dialogVisible(newValue) {
-      console.log(newValue);
-    },
   },
+  // watch: {
+  //   selectedSort(newValue) {
+  //     if (typeof this.posts[0][newValue] === 'string') {
+  //       this.posts.sort((post1, post2) => {
+  //         return post1[newValue]?.localeCompare(post2[newValue]);
+  //       });
+  //       console.log(newValue);
+  //       console.log(this.posts);
+  //       console.log(typeof this.posts[0][newValue]);
+  //     } else {
+  //       this.posts.sort((post1, post2) => {
+  //         return post1.id - post2.id;
+  //       });
+  //       console.log(this.posts);
+  //     }
+  //   },
+  //   dialogVisible(newValue) {
+  //     console.log(newValue);
+  //   },
+  // },
 };
 </script>
 
