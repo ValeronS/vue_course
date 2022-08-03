@@ -1,6 +1,11 @@
 <template>
   <div class="app">
     <h1>Страница с постами</h1>
+    <my-input
+      v-model="searchQuery"
+      placeholder="Поиск по теме..."
+      class="search"
+    />
     <div class="app__btns">
       <my-select v-model="selectedSort" :options="sortOptions" />
       <my-button @click="showDialog">Создать пост</my-button>
@@ -11,12 +16,15 @@
     </my-dialog>
 
     <post-list
-      :posts="sortedPosts"
+      :posts="sortedAndSearchedPosts"
       @remove="removePost"
       @fetchPosts="fetchPosts"
       v-if="!isPostLoading"
     />
     <div v-else>Идет загрузка...</div>
+    <div class="page__wrapper">
+      <div v-for="page in totalPages" key="page" class="page">{{ page }}</div>
+    </div>
   </div>
 </template>
 
@@ -36,6 +44,10 @@ export default {
       dialogVisible: false,
       isPostLoading: false,
       selectedSort: '',
+      searchQuery: '',
+      page: 1,
+      limit: 7,
+      totalPages: 0,
       sortOptions: [
         { value: 'title', name: 'По названию' },
         { value: 'body', name: 'По содержимому' },
@@ -59,7 +71,16 @@ export default {
         this.isPostLoading = true;
         setTimeout(async () => {
           const response = await axios.get(
-            'https://jsonplaceholder.typicode.com/posts?_limit=10'
+            'https://jsonplaceholder.typicode.com/posts',
+            {
+              params: {
+                _page: this.page,
+                _limit: this.limit,
+              },
+            }
+          );
+          this.totalPages = Math.ceil(
+            response.headers['x-total-count'] / this.limit
           );
           this.posts = response.data;
           console.log(response);
@@ -97,6 +118,11 @@ export default {
         console.log('Sorted by', this.selectedSort);
         return tempPosts;
       }
+    },
+    sortedAndSearchedPosts() {
+      return this.sortedPosts.filter((post) =>
+        post.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
   },
   // watch: {
@@ -143,5 +169,16 @@ h1 {
   justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.page__wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.page {
+  border: 1px solid black;
+  padding: 5px;
 }
 </style>

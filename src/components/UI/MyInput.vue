@@ -25,4 +25,7 @@ export default {
   border-radius: 5px;
   background: #eee;
 }
+.search {
+  background: #fff;
+}
 </style>
