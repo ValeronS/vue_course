@@ -22,7 +22,8 @@
       v-if="!isPostLoading"
     />
     <div v-else>Идет загрузка...</div>
-    <my-pages :page="page" :totalPages="totalPages" @changePage="changePage" />
+    <div ref="observer" class="observer"></div>
+    <!-- <my-pages :page="page" :totalPages="totalPages" @changePage="changePage" /> -->
   </div>
 </template>
 
@@ -49,7 +50,7 @@ export default {
       sortOptions: [
         { value: 'title', name: 'По названию' },
         { value: 'body', name: 'По содержимому' },
-        { value: 'id', name: 'По id поста' },
+        { value: 'id', name: 'По ID поста' },
       ],
     };
   },
@@ -58,12 +59,15 @@ export default {
       this.posts.push(post);
       this.dialogVisible = false;
     },
+
     removePost(post) {
       this.posts = this.posts.filter((p) => p.id !== post.id);
     },
+
     showDialog() {
       this.dialogVisible = true;
     },
+
     async fetchPosts() {
       try {
         this.isPostLoading = true;
@@ -89,13 +93,74 @@ export default {
       } finally {
       }
     },
-    changePage(pageNumber) {
-      this.page = pageNumber;
+
+    async fetchPosts() {
+      try {
+        this.isPostLoading = true;
+        setTimeout(async () => {
+          const response = await axios.get(
+            'https://jsonplaceholder.typicode.com/posts',
+            {
+              params: {
+                _page: this.page,
+                _limit: this.limit,
+              },
+            }
+          );
+          this.totalPages = Math.ceil(
+            response.headers['x-total-count'] / this.limit
+          );
+          this.posts = response.data;
+          console.log(response);
+          this.isPostLoading = false;
+        }, 700);
+      } catch (error) {
+        alert('Ошибка: ', error);
+      } finally {
+      }
     },
+
+    async loadMorePosts() {
+      try {
+        this.page += 1;
+        const response = await axios.get(
+          'https://jsonplaceholder.typicode.com/posts',
+          {
+            params: {
+              _page: this.page,
+              _limit: this.limit,
+            },
+          }
+        );
+        this.totalPages = Math.ceil(
+          response.headers['x-total-count'] / this.limit
+        );
+        this.posts = [...this.posts, ...response.data];
+        console.log(response);
+      } catch (error) {
+        alert('Ошибка: ', error);
+      } finally {
+      }
+    },
+    // changePage(pageNumber) {
+    //   this.page = pageNumber;
+    // },
   },
   mounted() {
     this.fetchPosts();
+    const options = {
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting === true && this.page < this.totalPages) {
+        this.loadMorePosts();
+      }
+    };
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer);
   },
+
   computed: {
     sortedPosts() {
       let tempPosts = [...this.posts];
@@ -127,9 +192,9 @@ export default {
     },
   },
   watch: {
-    page() {
-      this.fetchPosts();
-    },
+    // page() {
+    //   this.fetchPosts();
+    // },
     //   selectedSort(newValue) {
     //     if (typeof this.posts[0][newValue] === 'string') {
     //       this.posts.sort((post1, post2) => {
@@ -174,4 +239,9 @@ h1 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+/* .observer {
+  height: 30px;
+  background: teal;
+} */
 </style>
