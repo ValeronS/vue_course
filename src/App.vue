@@ -23,7 +23,15 @@
     />
     <div v-else>Идет загрузка...</div>
     <div class="page__wrapper">
-      <div v-for="page in totalPages" key="page" class="page">{{ page }}</div>
+      <div
+        v-for="pageNumber in totalPages"
+        :key="pageNumber"
+        class="page"
+        :class="{ 'current-page': page === pageNumber }"
+        @click="changePage(pageNumber)"
+      >
+        {{ pageNumber }}
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +99,9 @@ export default {
       } finally {
       }
     },
+    changePage(pageNumber) {
+      this.page = pageNumber;
+    },
   },
   mounted() {
     this.fetchPosts();
@@ -125,7 +136,11 @@ export default {
       );
     },
   },
-  // watch: {
+  watch: {
+    page() {
+      this.fetchPosts();
+    },
+  },
   //   selectedSort(newValue) {
   //     if (typeof this.posts[0][newValue] === 'string') {
   //       this.posts.sort((post1, post2) => {
@@ -180,5 +195,10 @@ h1 {
 .page {
   border: 1px solid black;
   padding: 5px;
+  cursor: pointer;
+}
+
+.current-page {
+  border: 2px solid teal;
 }
 </style>
