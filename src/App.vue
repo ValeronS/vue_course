@@ -22,17 +22,7 @@
       v-if="!isPostLoading"
     />
     <div v-else>Идет загрузка...</div>
-    <div class="page__wrapper">
-      <div
-        v-for="pageNumber in totalPages"
-        :key="pageNumber"
-        class="page"
-        :class="{ 'current-page': page === pageNumber }"
-        @click="changePage(pageNumber)"
-      >
-        {{ pageNumber }}
-      </div>
-    </div>
+    <my-pages :page="page" :totalPages="totalPages" @changePage="changePage" />
   </div>
 </template>
 
@@ -140,26 +130,25 @@ export default {
     page() {
       this.fetchPosts();
     },
+    //   selectedSort(newValue) {
+    //     if (typeof this.posts[0][newValue] === 'string') {
+    //       this.posts.sort((post1, post2) => {
+    //         return post1[newValue]?.localeCompare(post2[newValue]);
+    //       });
+    //       console.log(newValue);
+    //       console.log(this.posts);
+    //       console.log(typeof this.posts[0][newValue]);
+    //     } else {
+    //       this.posts.sort((post1, post2) => {
+    //         return post1.id - post2.id;
+    //       });
+    //       console.log(this.posts);
+    //     }
+    //   },
+    //   dialogVisible(newValue) {
+    //     console.log(newValue);
+    //   },
   },
-  //   selectedSort(newValue) {
-  //     if (typeof this.posts[0][newValue] === 'string') {
-  //       this.posts.sort((post1, post2) => {
-  //         return post1[newValue]?.localeCompare(post2[newValue]);
-  //       });
-  //       console.log(newValue);
-  //       console.log(this.posts);
-  //       console.log(typeof this.posts[0][newValue]);
-  //     } else {
-  //       this.posts.sort((post1, post2) => {
-  //         return post1.id - post2.id;
-  //       });
-  //       console.log(this.posts);
-  //     }
-  //   },
-  //   dialogVisible(newValue) {
-  //     console.log(newValue);
-  //   },
-  // },
 };
 </script>
 
@@ -184,21 +173,5 @@ h1 {
   justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-.page__wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.page {
-  border: 1px solid black;
-  padding: 5px;
-  cursor: pointer;
-}
-
-.current-page {
-  border: 2px solid teal;
 }
 </style>
