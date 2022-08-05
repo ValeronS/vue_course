@@ -6,7 +6,14 @@
       <div><strong>Описание: </strong>{{ post.body }}</div>
     </div>
     <div class="post__btns">
-      <my-button @click="$emit('remove', post)">Удалить</my-button>
+      <my-button
+        @click="$router.push(`/postsPage/${post.id}`)"
+        class="margin_bottom"
+        >Открыть</my-button
+      >
+      <my-button @click="$emit('remove', post)" class="margin_top"
+        >Удалить</my-button
+      >
     </div>
   </div>
 </template>
@@ -30,6 +37,5 @@ export default {
   border-radius: 5px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 </style>

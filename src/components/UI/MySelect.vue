@@ -33,5 +33,6 @@ export default {
   color: teal;
   border: 1px solid teal;
   border-radius: 3px;
+  background-color: #fff;
 }
 </style>
