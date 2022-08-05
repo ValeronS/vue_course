@@ -28,7 +28,15 @@ export default {
   margin-top: 5px;
 }
 
+.margin_right {
+  margin-right: 5px;
+}
+
 .margin_bottom {
   margin-bottom: 5px;
+}
+
+.margin_left {
+  margin-left: 5px;
 }
 </style>
