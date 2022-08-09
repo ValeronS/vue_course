@@ -46,7 +46,7 @@ export default {
       isPostLoading: false,
       selectedSort: '',
       searchQuery: '',
-      page: 1,
+      page: 0,
       limit: 7,
       totalPages: 0,
       sortOptions: [
