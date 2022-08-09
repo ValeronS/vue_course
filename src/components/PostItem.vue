@@ -37,5 +37,10 @@ export default {
   border-radius: 5px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.post__btns {
+  display: flex;
+  flex-direction: column;
 }
 </style>

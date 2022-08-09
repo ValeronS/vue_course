@@ -5,6 +5,7 @@
       <my-button @click="$router.push('/postspage')" class="margin_right"
         >Посты</my-button
       >
+      <my-button @click="$router.push('/store')">Store</my-button>
       <my-button @click="$router.push('/about')" class="margin_left"
         >Описание</my-button
       >
