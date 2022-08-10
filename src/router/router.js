@@ -1,5 +1,5 @@
 import Main from '@/pages/Main';
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import PostsPage from '@/pages/PostsPage';
 import About from '@/pages/About';
 import PostIdPage from '@/pages/PostIdPage';
@@ -30,7 +30,7 @@ const routes = [
 
 const router = createRouter({
   routes,
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
 });
 
 export default router;
