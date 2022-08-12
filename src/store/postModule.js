@@ -7,7 +7,7 @@ export const postModule = {
     selectedSort: '',
     searchQuery: '',
     page: 0,
-    limit: 7,
+    limit: 10,
     totalPages: 0,
     dialogVisible: false,
     sortOptions: [
