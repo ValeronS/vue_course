@@ -18,18 +18,22 @@
     <post-list :posts="sortedAndSearchedPosts" v-if="!isPostLoading" />
     <div v-else>Идет загрузка...</div>
 
-    <!-- <div v-intersection="loadMorePosts" class="observer"></div> -->
+    <div
+      v-if="posts.length > 0"
+      v-intersection="loadMorePosts"
+      class="observer"
+    ></div>
   </div>
 </template>
 
 <script>
 import PostForm from '@/components/PostForm.vue';
 import PostList from '@/components/PostList.vue';
-import axios from 'axios';
 import { ref } from 'vue';
 import { usePosts } from '@/hooks/usePosts';
 import useSortedPosts from '@/hooks/useSortedPosts';
 import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts';
+import useLoadMorePosts from '@/hooks/useLoadMorePosts';
 
 export default {
   components: {
@@ -47,19 +51,23 @@ export default {
     };
   },
   setup(props) {
-    const { posts, totalPages, isPostLoading } = usePosts(10);
+    const { posts, page, limit, totalPages, isPostLoading } = usePosts();
     const { selectedSort, sortedPosts } = useSortedPosts(posts);
     const { searchQuery, sortedAndSearchedPosts } =
       useSortedAndSearchedPosts(sortedPosts);
+    const { loadMorePosts } = useLoadMorePosts(posts, page, limit, totalPages);
 
     return {
       posts,
+      page,
+      limit,
       totalPages,
       isPostLoading,
       selectedSort,
       sortedPosts,
       searchQuery,
       sortedAndSearchedPosts,
+      loadMorePosts,
     };
   },
 };

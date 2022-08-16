@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
-export function usePosts(limit) {
+export function usePosts() {
   const posts = ref([]);
+  const page = ref(1);
+  const limit = ref(10);
   const totalPages = ref(0);
   const isPostLoading = ref(true);
 
@@ -13,16 +15,16 @@ export function usePosts(limit) {
           'https://jsonplaceholder.typicode.com/posts',
           {
             params: {
-              _page: 1,
-              _limit: limit,
+              _page: page.value,
+              _limit: limit.value,
             },
           }
         );
         totalPages.value = Math.ceil(
-          response.headers['x-total-count'] / limit
+          response.headers['x-total-count'] / limit.value
         );
         posts.value = response.data;
-        console.log(response);
+        // console.log(response);
         isPostLoading.value = false;
       }, 700);
     } catch (error) {
@@ -35,6 +37,8 @@ export function usePosts(limit) {
 
   return {
     posts,
+    page,
+    limit,
     totalPages,
     isPostLoading,
   };
