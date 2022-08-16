@@ -96,32 +96,6 @@ export default {
       }
     },
 
-    async fetchPosts() {
-      try {
-        this.isPostLoading = true;
-        setTimeout(async () => {
-          const response = await axios.get(
-            'https://jsonplaceholder.typicode.com/posts',
-            {
-              params: {
-                _page: this.page,
-                _limit: this.limit,
-              },
-            }
-          );
-          this.totalPages = Math.ceil(
-            response.headers['x-total-count'] / this.limit
-          );
-          this.posts = response.data;
-          console.log(response);
-          this.isPostLoading = false;
-        }, 700);
-      } catch (error) {
-        alert('Ошибка: ', error);
-      } finally {
-      }
-    },
-
     async loadMorePosts() {
       try {
         this.page += 1;

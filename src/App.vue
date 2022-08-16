@@ -23,6 +23,7 @@ export default {
 }
 .app {
   padding: 20px;
+  overflow-x: hidden;
 }
 .space {
   height: 50px;
