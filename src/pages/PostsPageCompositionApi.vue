@@ -8,12 +8,12 @@
     />
     <div class="app__btns">
       <my-select v-model="selectedSort" :options="sortOptions" />
-      <my-button @click="dialogVisible">Создать пост</my-button>
+      <my-button @click="showDialog">Создать пост</my-button>
     </div>
 
-    <!-- <my-dialog v-model:show="dialogVisible">
+    <my-dialog v-model:show="dialogVisible">
       <post-form @create="createPost" />
-    </my-dialog> -->
+    </my-dialog>
 
     <post-list
       :posts="sortedAndSearchedPosts"
@@ -39,6 +39,7 @@ import useSortedPosts from '@/hooks/useSortedPosts';
 import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts';
 import useLoadMorePosts from '@/hooks/useLoadMorePosts';
 import useRemovePost from '@/hooks/useRemovePost';
+import useCreatePost from '@/hooks/useCreatePost';
 
 export default {
   components: {
@@ -47,7 +48,6 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
       sortOptions: [
         { value: 'title', name: 'По названию' },
         { value: 'body', name: 'По содержимому' },
@@ -62,6 +62,7 @@ export default {
       useSortedAndSearchedPosts(sortedPosts);
     const { loadMorePosts } = useLoadMorePosts(posts, page, limit, totalPages);
     const { removePost } = useRemovePost(posts);
+    const { dialogVisible, createPost, showDialog } = useCreatePost(posts);
 
     return {
       posts,
@@ -75,6 +76,9 @@ export default {
       sortedAndSearchedPosts,
       loadMorePosts,
       removePost,
+      dialogVisible,
+      createPost,
+      showDialog,
     };
   },
 };
