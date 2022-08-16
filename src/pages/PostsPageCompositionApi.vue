@@ -15,7 +15,11 @@
       <post-form @create="createPost" />
     </my-dialog> -->
 
-    <post-list :posts="sortedAndSearchedPosts" v-if="!isPostLoading" />
+    <post-list
+      :posts="sortedAndSearchedPosts"
+      v-if="!isPostLoading"
+      @remove="removePost"
+    />
     <div v-else>Идет загрузка...</div>
 
     <div
@@ -34,6 +38,7 @@ import { usePosts } from '@/hooks/usePosts';
 import useSortedPosts from '@/hooks/useSortedPosts';
 import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts';
 import useLoadMorePosts from '@/hooks/useLoadMorePosts';
+import useRemovePost from '@/hooks/useRemovePost';
 
 export default {
   components: {
@@ -56,6 +61,7 @@ export default {
     const { searchQuery, sortedAndSearchedPosts } =
       useSortedAndSearchedPosts(sortedPosts);
     const { loadMorePosts } = useLoadMorePosts(posts, page, limit, totalPages);
+    const { removePost } = useRemovePost(posts);
 
     return {
       posts,
@@ -68,6 +74,7 @@ export default {
       searchQuery,
       sortedAndSearchedPosts,
       loadMorePosts,
+      removePost,
     };
   },
 };
