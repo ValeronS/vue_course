@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import PostsPage from '@/pages/PostsPage';
 import About from '@/pages/About';
 import PostIdPage from '@/pages/PostIdPage';
+// import PostIdPage from '@/pages/PostIdPageCompApi';
 import PostsPageWithStore from '@/pages/PostsPageWithStore';
 import PostsPageCompositionApi from '@/pages/PostsPageCompositionApi';
 

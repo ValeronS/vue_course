@@ -4,7 +4,7 @@ import { setTimeout } from 'core-js';
 export const postModule = {
   state: () => ({
     posts: [],
-    isPostLoading: false,
+    isPostLoading: true,
     selectedSort: '',
     searchQuery: '',
     page: 0,
@@ -84,8 +84,8 @@ export const postModule = {
   actions: {
     async fetchPosts({ state, commit }) {
       if (state.page === 0) {
+        commit('setLoading', true);
         try {
-          commit('setLoading', true);
           setTimeout(async () => {
             const response = await axios.get(
               'https://jsonplaceholder.typicode.com/posts',
@@ -101,11 +101,11 @@ export const postModule = {
               Math.ceil(response.headers['x-total-count'] / state.limit)
             );
             commit('setPosts', response.data);
-          }, 700);
+            commit('setLoading', false);
+          }, 500);
         } catch (error) {
           console.log(error);
         } finally {
-          commit('setLoading', false);
         }
       }
     },
@@ -121,36 +121,36 @@ export const postModule = {
           commit('setPostTitle', response.data.title);
           commit('setPostBody', response.data.body);
           console.log(response);
+          commit('setLoading', false);
         } catch (error) {
           console.log(error);
         } finally {
-          commit('setLoading', false);
         }
       }, 500);
     },
 
-    async loadMorePosts({ state, commit }) {
-      try {
-        commit('setPage', state.page + 1);
-        const response = await axios.get(
-          'https://jsonplaceholder.typicode.com/posts',
-          {
-            params: {
-              _page: state.page,
-              _limit: state.limit,
-            },
-          }
-        );
-        commit(
-          'setTotalPages',
-          Math.ceil(response.headers['x-total-count'] / state.limit)
-        );
-        commit('setPosts', [...state.posts, ...response.data]);
-      } catch (error) {
-        console.log(error);
-      } finally {
-      }
-    },
+    // async loadMorePosts({ state, commit }) {
+    //   try {
+    //     commit('setPage', state.page + 1);
+    //     const response = await axios.get(
+    //       'https://jsonplaceholder.typicode.com/posts',
+    //       {
+    //         params: {
+    //           _page: state.page,
+    //           _limit: state.limit,
+    //         },
+    //       }
+    //     );
+    //     commit(
+    //       'setTotalPages',
+    //       Math.ceil(response.headers['x-total-count'] / state.limit)
+    //     );
+    //     commit('setPosts', [...state.posts, ...response.data]);
+    //   } catch (error) {
+    //     console.log(error);
+    //   } finally {
+    //   }
+    // },
 
     createPost({ state, commit }, post) {
       state.posts.push(post);
