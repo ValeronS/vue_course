@@ -22,14 +22,18 @@
     </my-dialog>
 
     <post-list
+      v-if="!isPostLoading"
       :posts="sortedAndSearchedPosts"
       @remove="removePost"
       @fetchPosts="fetchPosts"
-      v-if="!isPostLoading"
     />
-    <div v-else>Идет загрузка...</div>
+    <div v-else class="page-loading">Загрузка...</div>
 
-    <div v-intersection="loadMorePosts" class="observer"></div>
+    <div
+      v-if="posts.length > 9"
+      v-intersection="loadMorePosts"
+      class="observer"
+    ></div>
   </div>
 </template>
 

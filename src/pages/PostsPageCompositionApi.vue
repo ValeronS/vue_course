@@ -20,7 +20,7 @@
       v-if="!isPostLoading"
       @remove="removePost"
     />
-    <div v-else>Идет загрузка...</div>
+    <div class="page-loading" v-else>Идет загрузка...</div>
 
     <div
       v-if="posts.length > 0"

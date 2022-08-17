@@ -21,7 +21,7 @@
       @fetchPosts="fetchPosts"
       v-if="!isPostLoading"
     />
-    <div v-else>Идет загрузка...</div>
+    <div v-else class="page-loading">Загрузка...</div>
 
     <div v-intersection="loadMorePosts" class="observer"></div>
 

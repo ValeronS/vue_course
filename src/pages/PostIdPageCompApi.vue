@@ -51,7 +51,7 @@ export default {
 
 <style>
 .post-page {
-  margin-top: 15vh;
+  margin-top: 33%;
 }
 .post__el {
   background-color: azure;
@@ -72,6 +72,6 @@ h3 {
 }
 .page-loading {
   text-align: center;
-  margin-top: 30vh;
+  margin-top: 33vh;
 }
 </style>
