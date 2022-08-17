@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setTimeout } from 'core-js';
 
 export const postModule = {
   state: () => ({
@@ -9,6 +10,10 @@ export const postModule = {
     page: 0,
     limit: 10,
     totalPages: 0,
+    postId: 1,
+    post: [],
+    postTitle: '',
+    postBody: '',
     dialogVisible: false,
     sortOptions: [
       { value: 'title', name: 'По названию' },
@@ -16,6 +21,7 @@ export const postModule = {
       { value: 'id', name: 'По ID поста' },
     ],
   }),
+
   getters: {
     sortedPosts(state) {
       let tempPosts = [...state.posts];
@@ -41,6 +47,7 @@ export const postModule = {
       );
     },
   },
+
   mutations: {
     setPosts(state, posts) {
       state.posts = posts;
@@ -63,7 +70,17 @@ export const postModule = {
     setShowDialog(state, bool) {
       state.dialogVisible = bool;
     },
+    setPost(state, post) {
+      state.post = post;
+    },
+    setPostTitle(state, postTitle) {
+      state.postTitle = postTitle;
+    },
+    setPostBody(state, postBody) {
+      state.postBody = postBody;
+    },
   },
+
   actions: {
     async fetchPosts({ state, commit }) {
       if (state.page === 0) {
@@ -84,13 +101,32 @@ export const postModule = {
               Math.ceil(response.headers['x-total-count'] / state.limit)
             );
             commit('setPosts', response.data);
-            commit('setLoading', false);
           }, 700);
         } catch (error) {
           console.log(error);
         } finally {
+          commit('setLoading', false);
         }
       }
+    },
+
+    async fetchPost({ state, commit }, currentId) {
+      commit('setLoading', true);
+      setTimeout(async () => {
+        try {
+          const response = await axios.get(
+            `https://jsonplaceholder.typicode.com/posts/${currentId}`
+          );
+          commit('setPost', response.data);
+          commit('setPostTitle', response.data.title);
+          commit('setPostBody', response.data.body);
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          commit('setLoading', false);
+        }
+      }, 500);
     },
 
     async loadMorePosts({ state, commit }) {
@@ -136,5 +172,6 @@ export const postModule = {
       );
     },
   },
+
   namespaced: true,
 };
