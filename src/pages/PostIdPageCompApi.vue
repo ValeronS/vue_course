@@ -4,7 +4,9 @@
       <h2>Страница поста ID # {{ $route.params.id }}</h2>
       <div class="post__el">
         <h3>Название</h3>
-        <div class="post__title">{{ postTitle }}</div>
+        <div class="post__title">
+          {{ postTitle }}
+        </div>
       </div>
 
       <div class="post__el">
@@ -17,34 +19,22 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { usePosts } from '@/hooks/usePosts';
+import { useFetchPost } from '@/hooks/useFetchPost';
 
 export default {
-  data() {
+  setup(props) {
+    const { isPostLoading } = usePosts();
+    const { post, postTitle, postBody, fetchPost } =
+      useFetchPost(isPostLoading);
+
     return {
-      currentId: this.$route.params.id,
+      isPostLoading,
+      post,
+      postTitle,
+      postBody,
+      fetchPost,
     };
-  },
-
-  methods: {
-    ...mapActions({
-      fetchPost: 'post/fetchPost',
-    }),
-  },
-
-  mounted() {
-    this.fetchPost(this.currentId);
-  },
-
-  computed: {
-    ...mapState({
-      posts: (state) => state.post.posts,
-      postId: (state) => state.post.postId,
-      post: (state) => state.post.post,
-      postTitle: (state) => state.post.postTitle,
-      postBody: (state) => state.post.postBody,
-      isPostLoading: (state) => state.post.isPostLoading,
-    }),
   },
 };
 </script>
