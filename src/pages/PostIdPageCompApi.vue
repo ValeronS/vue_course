@@ -13,6 +13,17 @@
         <h3>Содержание</h3>
         <div class="post__body">{{ postBody }}</div>
       </div>
+
+      <div class="btns">
+        <my-button
+          @click="$router.push(`/postspage/${Number($route.params.id) - 1}`)"
+          >Предыдущий пост</my-button
+        >
+        <my-button
+          @click="$router.push(`/postspage/${Number($route.params.id) + 1}`)"
+          >Следующий пост</my-button
+        >
+      </div>
     </div>
     <div class="page-loading" v-else>Загрузка...</div>
   </div>
@@ -23,14 +34,20 @@ import { usePosts } from '@/hooks/usePosts';
 import { useFetchPost } from '@/hooks/useFetchPost';
 
 export default {
+  beforeRouteUpdate(to, from, next) {
+    this.currentId = to.params.id;
+    this.fetchPost();
+    next();
+  },
+
   setup(props) {
     const { isPostLoading } = usePosts();
-    const { post, postTitle, postBody, fetchPost } =
+    const { currentId, postTitle, postBody, fetchPost } =
       useFetchPost(isPostLoading);
 
     return {
       isPostLoading,
-      post,
+      currentId,
       postTitle,
       postBody,
       fetchPost,
@@ -63,5 +80,11 @@ h3 {
 .page-loading {
   text-align: center;
   margin-top: 33vh;
+}
+.btns {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  cursor: pointer;
 }
 </style>
