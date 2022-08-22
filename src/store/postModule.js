@@ -51,7 +51,7 @@ export const postModule = {
 
   mutations: {
     setPosts(state, posts) {
-      state.posts = posts;
+      state.posts.value = posts;
     },
     setLoading(state, bool) {
       state.isPostLoading = bool;
