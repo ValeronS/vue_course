@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { ref } from 'vue';
 import { setTimeout } from 'core-js';
 
 export const postModule = {
   state: () => ({
-    posts: [],
+    posts: ref([]),
     isPostLoading: true,
     selectedSort: '',
     searchQuery: '',
@@ -51,7 +52,6 @@ export const postModule = {
   mutations: {
     setPosts(state, posts) {
       state.posts = posts;
-      // пробовал state.posts.value = posts;
     },
     setLoading(state, bool) {
       state.isPostLoading = bool;
@@ -83,9 +83,8 @@ export const postModule = {
   },
 
   actions: {
-    async setPosts({ commit }, posts) {
-      commit('setPosts', await posts);
-      // пробовал и ассинхронно и обычно
+    setPosts({ commit }, posts) {
+      commit('setPosts', posts);
     },
 
     async fetchPosts({ state, commit }) {

@@ -38,11 +38,6 @@ import { useFetchPost } from '@/hooks/useFetchPost';
 // import { mapState } from 'vuex';
 
 export default {
-  // beforeRouteEnter(to, from, next) {
-  //   next((vm) => {
-  //     this.fetchPosts();
-  //   });
-  // },
   beforeRouteUpdate(to, from, next) {
     this.currentId = to.params.id;
     this.fetchPost();
