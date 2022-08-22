@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { ref } from 'vue';
 import { setTimeout } from 'core-js';
 
 export const postModule = {
   state: () => ({
-    posts: ref([]),
+    posts: [],
     isPostLoading: true,
     selectedSort: '',
     searchQuery: '',
@@ -51,7 +50,7 @@ export const postModule = {
 
   mutations: {
     setPosts(state, posts) {
-      state.posts.value = posts;
+      state.posts = posts;
     },
     setLoading(state, bool) {
       state.isPostLoading = bool;
