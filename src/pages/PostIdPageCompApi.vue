@@ -16,11 +16,13 @@
 
       <div class="btns">
         <my-button
-          @click="$router.push(`/postspage/${Number($route.params.id) - 1}`)"
+          v-if="currentId > 1"
+          @click="$router.push(`/postspage/${--currentId}`)"
           >Предыдущий пост</my-button
         >
         <my-button
-          @click="$router.push(`/postspage/${Number($route.params.id) + 1}`)"
+          v-if="currentId < postsLength"
+          @click="$router.push(`/postspage/${++currentId}`)"
           >Следующий пост</my-button
         >
       </div>
@@ -30,10 +32,17 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
 import { usePosts } from '@/hooks/usePosts';
 import { useFetchPost } from '@/hooks/useFetchPost';
+// import { mapState } from 'vuex';
 
 export default {
+  // beforeRouteEnter(to, from, next) {
+  //   next((vm) => {
+  //     this.fetchPosts();
+  //   });
+  // },
   beforeRouteUpdate(to, from, next) {
     this.currentId = to.params.id;
     this.fetchPost();
@@ -41,9 +50,11 @@ export default {
   },
 
   setup(props) {
-    const { isPostLoading } = usePosts();
+    const { isPostLoading, fetchPosts } = usePosts();
     const { currentId, postTitle, postBody, fetchPost } =
       useFetchPost(isPostLoading);
+    const store = useStore();
+    const postsLength = store.state.post.posts.length;
 
     return {
       isPostLoading,
@@ -51,8 +62,15 @@ export default {
       postTitle,
       postBody,
       fetchPost,
+      fetchPosts,
+      postsLength,
     };
   },
+  // computed: {
+  //   ...mapState({
+  //     posts: (state) => state.post.posts,
+  //   }),
+  // },
 };
 </script>
 

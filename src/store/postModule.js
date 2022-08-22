@@ -51,6 +51,7 @@ export const postModule = {
   mutations: {
     setPosts(state, posts) {
       state.posts = posts;
+      // пробовал state.posts.value = posts;
     },
     setLoading(state, bool) {
       state.isPostLoading = bool;
@@ -82,6 +83,11 @@ export const postModule = {
   },
 
   actions: {
+    async setPosts({ commit }, posts) {
+      commit('setPosts', await posts);
+      // пробовал и ассинхронно и обычно
+    },
+
     async fetchPosts({ state, commit }) {
       if (state.page === 0) {
         commit('setLoading', true);

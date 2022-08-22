@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export function usePosts() {
-  const posts = ref([]);
+  const store = useStore();
+  const posts = ref(store.state.post.posts);
   const page = ref(1);
   const limit = ref(10);
   const totalPages = ref(0);
@@ -23,10 +25,11 @@ export function usePosts() {
         totalPages.value = Math.ceil(
           response.headers['x-total-count'] / limit.value
         );
-        posts.value = response.data;
-        // console.log(response);
+        () => store.dispatch('setPosts', response);
+        console.log(response);
+        console.log(posts);
         isPostLoading.value = false;
-      }, 700);
+      }, 500);
     } catch (error) {
       console.log('Ошибка: ', error);
     } finally {

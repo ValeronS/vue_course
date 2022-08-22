@@ -2,9 +2,9 @@
   <div class="navbar">
     <div @click="$router.push('/')">Vue 3</div>
     <div class="nav__btns">
-      <my-button @click="$router.push('/postspage')" class="margin_right"
+      <!-- <my-button @click="$router.push('/postspage')" class="margin_right"
         >Посты</my-button
-      >
+      > -->
       <my-button @click="$router.push('/store')">Store</my-button>
       <my-button @click="$router.push('/composition')" class="margin_left"
         >CompApi</my-button
