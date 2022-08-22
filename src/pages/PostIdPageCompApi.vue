@@ -45,10 +45,10 @@ export default {
   },
 
   setup(props) {
+    const store = useStore();
     const { isPostLoading, fetchPosts } = usePosts();
     const { currentId, postTitle, postBody, fetchPost } =
       useFetchPost(isPostLoading);
-    const store = useStore();
     const postsLength = store.state.post.posts.length;
 
     return {

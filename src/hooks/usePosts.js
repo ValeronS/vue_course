@@ -25,7 +25,7 @@ export function usePosts() {
         totalPages.value = Math.ceil(
           response.headers['x-total-count'] / limit.value
         );
-        () => store.dispatch('setPosts', response);
+        () => store.commit('post/setPosts', response);
         console.log(response);
         console.log(posts);
         isPostLoading.value = false;
