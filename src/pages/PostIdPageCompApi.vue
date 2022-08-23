@@ -18,11 +18,13 @@
         <my-button
           v-if="currentId > 1"
           @click="$router.push(`/postspage/${--currentId}`)"
+          class="btn"
           >Предыдущий пост</my-button
         >
         <my-button
           v-if="currentId < postsLength"
           @click="$router.push(`/postspage/${++currentId}`)"
+          class="btn"
           >Следующий пост</my-button
         >
       </div>
@@ -32,9 +34,7 @@
 </template>
 
 <script>
-import { useStore } from 'vuex';
 import { useFetchPost } from '@/hooks/useFetchPost';
-// import { mapState } from 'vuex';
 
 export default {
   beforeRouteUpdate(to, from, next) {
@@ -44,10 +44,14 @@ export default {
   },
 
   setup(props) {
-    const store = useStore();
-    const postsLength = store.state.post.posts.length;
-    const { isPostLoading, currentId, postTitle, postBody, fetchPost } =
-      useFetchPost();
+    const {
+      isPostLoading,
+      currentId,
+      postsLength,
+      postTitle,
+      postBody,
+      fetchPost,
+    } = useFetchPost();
 
     return {
       postsLength,
@@ -58,17 +62,12 @@ export default {
       fetchPost,
     };
   },
-  // computed: {
-  //   ...mapState({
-  //     posts: (state) => state.post.posts,
-  //   }),
-  // },
 };
 </script>
 
 <style>
 .post-page {
-  margin-top: 33%;
+  margin-top: 10vh;
 }
 .post__el {
   background-color: azure;
@@ -95,6 +94,8 @@ h3 {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+}
+.btn {
   cursor: pointer;
 }
 </style>

@@ -27,14 +27,14 @@ export function usePosts() {
           Math.ceil(response.headers['x-total-count'] / limit.value)
         );
         totalPages.value = store.state.post.totalPages;
-        console.log(store.state.post.totalPages);
+        // console.log(store.state.post.totalPages);
 
         store.commit('post/setPosts', response.data);
         posts.value = store.state.post.posts;
 
         store.commit('post/setLoading', false);
         isPostLoading.value = store.state.post.isPostLoading;
-      }, 500);
+      }, 300);
     } catch (error) {
       console.log('Ошибка: ', error);
     } finally {

@@ -7,12 +7,12 @@ export function useFetchPost() {
   const store = useStore();
   const currentId = ref(useRoute().params.id);
   const isPostLoading = ref(true);
+  const postsLength = ref(0);
   const post = ref([]);
   const postTitle = ref('');
   const postBody = ref('');
 
   const fetchPost = async () => {
-    console.log(store.state.post.isPostLoading);
     store.commit('post/setLoading', true);
     isPostLoading.value = store.state.post.isPostLoading;
     setTimeout(async () => {
@@ -20,6 +20,11 @@ export function useFetchPost() {
         const response = await axios.get(
           `https://jsonplaceholder.typicode.com/posts/${currentId.value}`
         );
+        const allPosts = await axios.get(
+          'https://jsonplaceholder.typicode.com/posts'
+        );
+        postsLength.value = allPosts.data.length;
+
         post.value = response.data;
         postTitle.value = response.data.title;
         postBody.value = response.data.body;
@@ -30,7 +35,7 @@ export function useFetchPost() {
         console.log(error);
       } finally {
       }
-    }, 300);
+    }, 200);
   };
 
   onMounted(fetchPost);
@@ -38,6 +43,7 @@ export function useFetchPost() {
   return {
     currentId,
     isPostLoading,
+    postsLength,
     post,
     postTitle,
     postBody,

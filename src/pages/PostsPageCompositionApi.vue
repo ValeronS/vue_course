@@ -45,18 +45,9 @@ export default {
     PostList,
     PostForm,
   },
-  data() {
-    return {
-      sortOptions: [
-        { value: 'title', name: 'По названию' },
-        { value: 'body', name: 'По содержимому' },
-        { value: 'id', name: 'По ID поста' },
-      ],
-    };
-  },
   setup(props) {
     const { posts, page, limit, totalPages, isPostLoading } = usePosts();
-    const { selectedSort, sortedPosts } = useSortedPosts(posts);
+    const { sortOptions, selectedSort, sortedPosts } = useSortedPosts(posts);
     const { searchQuery, sortedAndSearchedPosts } =
       useSortedAndSearchedPosts(sortedPosts);
     const { loadMorePosts } = useLoadMorePosts(posts, page, limit);
@@ -69,6 +60,7 @@ export default {
       limit,
       totalPages,
       isPostLoading,
+      sortOptions,
       selectedSort,
       sortedPosts,
       searchQuery,

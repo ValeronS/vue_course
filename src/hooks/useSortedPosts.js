@@ -3,6 +3,7 @@ import { useStore } from 'vuex';
 
 export default function useSortedPosts(posts) {
   const store = useStore();
+  const sortOptions = ref(store.state.post.sortOptions);
   const selectedSort = ref(store.state.post.selectedSort);
 
   const sortedPosts = computed(() => {
@@ -31,6 +32,7 @@ export default function useSortedPosts(posts) {
   });
 
   return {
+    sortOptions,
     selectedSort,
     sortedPosts,
   };
