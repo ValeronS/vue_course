@@ -33,7 +33,6 @@
 <script>
 import PostForm from '@/components/PostForm.vue';
 import PostList from '@/components/PostList.vue';
-import { ref } from 'vue';
 import { usePosts } from '@/hooks/usePosts';
 import useSortedPosts from '@/hooks/useSortedPosts';
 import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts';
@@ -46,21 +45,12 @@ export default {
     PostList,
     PostForm,
   },
-  data() {
-    return {
-      sortOptions: [
-        { value: 'title', name: 'По названию' },
-        { value: 'body', name: 'По содержимому' },
-        { value: 'id', name: 'По ID поста' },
-      ],
-    };
-  },
   setup(props) {
     const { posts, page, limit, totalPages, isPostLoading } = usePosts();
-    const { selectedSort, sortedPosts } = useSortedPosts(posts);
+    const { sortOptions, selectedSort, sortedPosts } = useSortedPosts(posts);
     const { searchQuery, sortedAndSearchedPosts } =
       useSortedAndSearchedPosts(sortedPosts);
-    const { loadMorePosts } = useLoadMorePosts(posts, page, limit, totalPages);
+    const { loadMorePosts } = useLoadMorePosts(posts, page, limit);
     const { removePost } = useRemovePost(posts);
     const { dialogVisible, createPost, showDialog } = useCreatePost(posts);
 
@@ -70,6 +60,7 @@ export default {
       limit,
       totalPages,
       isPostLoading,
+      sortOptions,
       selectedSort,
       sortedPosts,
       searchQuery,

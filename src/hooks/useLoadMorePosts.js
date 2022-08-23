@@ -1,11 +1,11 @@
 import axios from 'axios';
+import { useStore } from 'vuex';
 import { ref } from 'vue';
 
-export default function useloadMorePosts(posts, page, limit, totalPages) {
-  if (page.value > 0) {
-  }
+export default function useloadMorePosts(posts, page, limit) {
+  const store = useStore();
   const loadMorePosts = async () => {
-    page.value += 1;
+    store.commit('post/setPage', page.value++);
     try {
       const response = await axios.get(
         'https://jsonplaceholder.typicode.com/posts',
@@ -16,11 +16,9 @@ export default function useloadMorePosts(posts, page, limit, totalPages) {
           },
         }
       );
-      totalPages.value = Math.ceil(
-        response.headers['x-total-count'] / limit.value
-      );
-      posts.value = [...posts.value, ...response.data];
-      // console.log(response);
+      store.commit('post/setPosts', [...posts.value, ...response.data]);
+      posts.value = store.state.post.posts;
+      // console.log('useLoadMorePosts');
     } catch (error) {
       console.log('Ошибка: ', error);
     } finally {

@@ -1,19 +1,20 @@
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default function useCreatePost(posts) {
-  const dialogVisible = ref(false);
+  const store = useStore();
+  const dialogVisible = ref(store.state.post.dialogVisible);
 
   const createPost = (post) => {
     posts.value.push(post);
-
-    // без таймаута не работает
-    setTimeout(() => {
-      dialogVisible.value = false;
-    }, 1);
+    store.commit('post/setPosts', posts.value);
+    store.commit('post/setShowDialog', false);
+    dialogVisible.value = store.state.post.dialogVisible;
   };
 
   const showDialog = () => {
-    dialogVisible.value = true;
+    store.commit('post/setShowDialog', true);
+    dialogVisible.value = store.state.post.dialogVisible;
   };
 
   return {

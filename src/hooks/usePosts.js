@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export function usePosts() {
-  const posts = ref([]);
-  const page = ref(1);
-  const limit = ref(10);
-  const totalPages = ref(0);
-  const isPostLoading = ref(true);
+  const store = useStore();
+  const posts = ref(store.state.post.posts);
+  const page = ref(store.state.post.page);
+  const limit = ref(store.state.post.limit);
+  const totalPages = ref(store.state.post.totalPages);
+  const isPostLoading = ref(store.state.post.isPostLoading);
 
   const fetching = async () => {
     try {
@@ -20,13 +22,19 @@ export function usePosts() {
             },
           }
         );
-        totalPages.value = Math.ceil(
-          response.headers['x-total-count'] / limit.value
+        store.commit(
+          'post/setTotalPages',
+          Math.ceil(response.headers['x-total-count'] / limit.value)
         );
-        posts.value = response.data;
-        // console.log(response);
-        isPostLoading.value = false;
-      }, 700);
+        totalPages.value = store.state.post.totalPages;
+        // console.log(store.state.post.totalPages);
+
+        store.commit('post/setPosts', response.data);
+        posts.value = store.state.post.posts;
+
+        store.commit('post/setLoading', false);
+        isPostLoading.value = store.state.post.isPostLoading;
+      }, 300);
     } catch (error) {
       console.log('Ошибка: ', error);
     } finally {

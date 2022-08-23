@@ -16,11 +16,15 @@
 
       <div class="btns">
         <my-button
-          @click="$router.push(`/postspage/${Number($route.params.id) - 1}`)"
+          v-if="currentId > 1"
+          @click="$router.push(`/postspage/${--currentId}`)"
+          class="btn"
           >Предыдущий пост</my-button
         >
         <my-button
-          @click="$router.push(`/postspage/${Number($route.params.id) + 1}`)"
+          v-if="currentId < postsLength"
+          @click="$router.push(`/postspage/${++currentId}`)"
+          class="btn"
           >Следующий пост</my-button
         >
       </div>
@@ -30,7 +34,6 @@
 </template>
 
 <script>
-import { usePosts } from '@/hooks/usePosts';
 import { useFetchPost } from '@/hooks/useFetchPost';
 
 export default {
@@ -41,11 +44,17 @@ export default {
   },
 
   setup(props) {
-    const { isPostLoading } = usePosts();
-    const { currentId, postTitle, postBody, fetchPost } =
-      useFetchPost(isPostLoading);
+    const {
+      isPostLoading,
+      currentId,
+      postsLength,
+      postTitle,
+      postBody,
+      fetchPost,
+    } = useFetchPost();
 
     return {
+      postsLength,
       isPostLoading,
       currentId,
       postTitle,
@@ -58,7 +67,7 @@ export default {
 
 <style>
 .post-page {
-  margin-top: 33%;
+  margin-top: 10vh;
 }
 .post__el {
   background-color: azure;
@@ -85,6 +94,8 @@ h3 {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+}
+.btn {
   cursor: pointer;
 }
 </style>

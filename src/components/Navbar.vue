@@ -1,13 +1,9 @@
 <template>
   <div class="navbar">
-    <div @click="$router.push('/')">Vue 3</div>
+    <div @click="$router.push('/')" class="main">Vue 3</div>
     <div class="nav__btns">
-      <my-button @click="$router.push('/postspage')" class="margin_right"
-        >Посты</my-button
-      >
-      <my-button @click="$router.push('/store')">Store</my-button>
       <my-button @click="$router.push('/composition')" class="margin_left"
-        >CompApi</my-button
+        >Composition Api</my-button
       >
       <my-button @click="$router.push('/about')" class="margin_left"
         >Описание</my-button
@@ -32,6 +28,9 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+.main {
+  cursor: pointer;
 }
 .nav__btns {
   display: flex;

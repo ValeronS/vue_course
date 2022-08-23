@@ -1,7 +1,10 @@
 import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default function useSortedPosts(posts) {
-  const selectedSort = ref('');
+  const store = useStore();
+  const sortOptions = ref(store.state.post.sortOptions);
+  const selectedSort = ref(store.state.post.selectedSort);
 
   const sortedPosts = computed(() => {
     let tempPosts = [...posts.value];
@@ -29,6 +32,7 @@ export default function useSortedPosts(posts) {
   });
 
   return {
+    sortOptions,
     selectedSort,
     sortedPosts,
   };
