@@ -3,8 +3,6 @@ import { useStore } from 'vuex';
 import { ref } from 'vue';
 
 export default function useloadMorePosts(posts, page, limit) {
-  if (page.value > 0) {
-  }
   const store = useStore();
   const loadMorePosts = async () => {
     store.commit('post/setPage', page.value++);
@@ -20,7 +18,7 @@ export default function useloadMorePosts(posts, page, limit) {
       );
       store.commit('post/setPosts', [...posts.value, ...response.data]);
       posts.value = store.state.post.posts;
-      console.log('useLoadMorePosts');
+      // console.log('useLoadMorePosts');
     } catch (error) {
       console.log('Ошибка: ', error);
     } finally {

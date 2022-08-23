@@ -33,7 +33,6 @@
 <script>
 import PostForm from '@/components/PostForm.vue';
 import PostList from '@/components/PostList.vue';
-import { ref } from 'vue';
 import { usePosts } from '@/hooks/usePosts';
 import useSortedPosts from '@/hooks/useSortedPosts';
 import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts';

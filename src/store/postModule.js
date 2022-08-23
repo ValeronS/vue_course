@@ -85,7 +85,6 @@ export const postModule = {
     // async setPosts({ commit }, posts) {
     //   commit('setPosts', await posts);
     // },
-
     // async fetchPosts({ state, commit }) {
     //   if (state.page === 0) {
     //     commit('setLoading', true);
@@ -113,7 +112,6 @@ export const postModule = {
     //     }
     //   }
     // },
-
     // async fetchPost({ state, commit }, currentId) {
     //   commit('setLoading', true);
     //   setTimeout(async () => {
@@ -132,7 +130,6 @@ export const postModule = {
     //     }
     //   }, 500);
     // },
-
     // async loadMorePosts({ state, commit }) {
     //   try {
     //     commit('setPage', state.page + 1);
@@ -155,26 +152,22 @@ export const postModule = {
     //   } finally {
     //   }
     // },
-
-    createPost({ state, commit }, post) {
-      state.posts.push(post);
-      commit('setShowDialog', false);
-    },
-
-    showDialog({ commit }) {
-      commit('setShowDialog', true);
-    },
-
-    hideDialog({ commit }) {
-      commit('setShowDialog', false);
-    },
-
-    removePost({ state, commit }, post) {
-      commit(
-        'setPosts',
-        state.posts.filter((p) => p.id !== post.id)
-      );
-    },
+    // createPost({ state, commit }, post) {
+    //   state.posts.push(post);
+    //   commit('setShowDialog', false);
+    // },
+    // showDialog({ commit }) {
+    //   commit('setShowDialog', true);
+    // },
+    // hideDialog({ commit }) {
+    //   commit('setShowDialog', false);
+    // },
+    // removePost({ state, commit }, post) {
+    //   commit(
+    //     'setPosts',
+    //     state.posts.filter((p) => p.id !== post.id)
+    //   );
+    // },
   },
 
   namespaced: true,

@@ -6,7 +6,8 @@ export default function useCreatePost(posts) {
   const dialogVisible = ref(store.state.post.dialogVisible);
 
   const createPost = (post) => {
-    store.dispatch('post/createPost', post);
+    posts.value.push(post);
+    store.commit('post/setPosts', posts.value);
     store.commit('post/setShowDialog', false);
     dialogVisible.value = store.state.post.dialogVisible;
   };
