@@ -1,15 +1,18 @@
 import axios from 'axios';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import { onMounted, ref } from 'vue';
 
 export function useFetchPost(isPostLoading) {
+  const store = useStore();
   const currentId = ref(useRoute().params.id);
   const post = ref([]);
   const postTitle = ref('');
   const postBody = ref('');
 
   const fetchPost = async () => {
-    isPostLoading.value = true;
+    store.commit('post/setLoading', true);
+    isPostLoading.value = store.state.post.isPostLoading;
     setTimeout(async () => {
       try {
         const response = await axios.get(
@@ -18,8 +21,9 @@ export function useFetchPost(isPostLoading) {
         post.value = response.data;
         postTitle.value = response.data.title;
         postBody.value = response.data.body;
-        // console.log(currentId.value);
-        isPostLoading.value = false;
+
+        store.commit('post/setLoading', false);
+        isPostLoading.value = store.state.post.isPostLoading;
       } catch (error) {
         console.log(error);
       } finally {

@@ -1,7 +1,9 @@
 import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default function useSortedAndSearchedPosts(sortedPosts) {
-  const searchQuery = ref('');
+  const store = useStore();
+  const searchQuery = ref(store.state.post.searchQuery);
 
   const sortedAndSearchedPosts = computed(() => {
     return sortedPosts.value.filter((post) =>

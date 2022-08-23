@@ -21,7 +21,7 @@
           >Предыдущий пост</my-button
         >
         <my-button
-          v-if="currentId < postsLength"
+          v-if="currentId < posts.length"
           @click="$router.push(`/postspage/${++currentId}`)"
           >Следующий пост</my-button
         >
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import { useStore } from 'vuex';
 import { usePosts } from '@/hooks/usePosts';
 import { useFetchPost } from '@/hooks/useFetchPost';
 // import { mapState } from 'vuex';
@@ -45,20 +44,17 @@ export default {
   },
 
   setup(props) {
-    const store = useStore();
-    const { isPostLoading, fetchPosts } = usePosts();
+    const { posts, isPostLoading } = usePosts();
     const { currentId, postTitle, postBody, fetchPost } =
       useFetchPost(isPostLoading);
-    const postsLength = store.state.post.posts.length;
 
     return {
+      posts,
       isPostLoading,
       currentId,
       postTitle,
       postBody,
       fetchPost,
-      fetchPosts,
-      postsLength,
     };
   },
   // computed: {

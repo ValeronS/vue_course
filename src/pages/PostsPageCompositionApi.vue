@@ -60,7 +60,7 @@ export default {
     const { selectedSort, sortedPosts } = useSortedPosts(posts);
     const { searchQuery, sortedAndSearchedPosts } =
       useSortedAndSearchedPosts(sortedPosts);
-    const { loadMorePosts } = useLoadMorePosts(posts, page, limit, totalPages);
+    const { loadMorePosts } = useLoadMorePosts(posts, page, limit);
     const { removePost } = useRemovePost(posts);
     const { dialogVisible, createPost, showDialog } = useCreatePost(posts);
 
