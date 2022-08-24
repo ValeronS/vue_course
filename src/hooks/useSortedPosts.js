@@ -9,24 +9,33 @@ export default function useSortedPosts(posts) {
   const sortedPosts = computed(() => {
     let tempPosts = [...posts.value];
     if (selectedSort.value === '') {
-      // console.log('SelectedSort is empty');
+      console.log('SelectedSort is empty');
       // console.log(posts.value);
       return posts.value;
-    } else if (typeof posts.value[0][selectedSort.value] === 'string') {
+    } else if (selectedSort.value === 'titleUp') {
       tempPosts.sort((post1, post2) => {
-        return post1[selectedSort.value]?.localeCompare(
-          post2[selectedSort.value]
-        );
+        return post1.title?.localeCompare(post2.title);
       });
-      // console.log(tempPosts);
-      // console.log('Sorted by', selectedSort.value);
       return tempPosts;
-    } else {
+    } else if (selectedSort.value === 'titleDown') {
+      tempPosts.sort((post1, post2) => {
+        return post2.title?.localeCompare(post1.title);
+      });
+      return tempPosts;
+    } else if (selectedSort.value === 'bodyUp') {
+      tempPosts.sort((post1, post2) => {
+        return post1.body?.localeCompare(post2.body);
+      });
+      return tempPosts;
+    } else if (selectedSort.value === 'idUp') {
       tempPosts.sort((post1, post2) => {
         return post1.id - post2.id;
       });
-      // console.log(tempPosts);
-      // console.log('Sorted by', selectedSort.value);
+      return tempPosts;
+    } else {
+      tempPosts.sort((post1, post2) => {
+        return post2.id - post1.id;
+      });
       return tempPosts;
     }
   });
