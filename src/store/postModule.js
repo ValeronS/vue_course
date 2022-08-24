@@ -9,9 +9,12 @@ export const postModule = {
     totalPages: 0,
     dialogVisible: false,
     sortOptions: [
-      { value: 'title', name: 'По названию' },
-      { value: 'body', name: 'По содержимому' },
-      { value: 'id', name: 'По ID поста' },
+      { value: 'titleUp', name: 'По названию \u2191' },
+      { value: 'titleDown', name: 'По названию \u2193' },
+      { value: 'bodyUp', name: 'По содержимому \u2191' },
+      { value: 'bodyDown', name: 'По содержимому \u2193' },
+      { value: 'idUp', name: 'По ID поста \u2191' },
+      { value: 'idDown', name: 'По ID поста \u2193' },
     ],
   }),
 
